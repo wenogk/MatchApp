@@ -119,6 +119,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     func showAlert(title: String, msg: String) {
         let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "ok", style: .default, handler: nil)
+        alert.addAction(okAction)
         present(alert, animated: true, completion: nil)
         
     }
