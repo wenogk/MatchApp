@@ -42,7 +42,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let cell = collectionView.cellForItem(at: indexPath) as? CardCollectionViewCell;
         
-        if cell?.card?.isFlipped == false {
+        if cell?.card?.isFlipped == false && cell?.card?.isMatched == false {
                 cell?.flipUp();
             
             if(firstFlippedCardIndex == nil) {
