@@ -37,9 +37,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if milliseconds == 0 {
             timer?.invalidate()
-            milliseconds = 5000
             TimerLabel.textColor = UIColor.red;
             TimerLabel.text = "Time up!";
+            checkForGameEnd();
         }
     }
     // MARK: - Delegate methods for collection view
@@ -91,12 +91,36 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             cardTwo.isMatched = true;
             cardOneCell?.remove()
             cardTwoCell?.remove()
+            checkForGameEnd()
         } else {
             cardOneCell?.flipDown()
             cardTwoCell?.flipDown()
         }
         
         firstFlippedCardIndex = nil;
+    }
+    
+    func checkForGameEnd() {
+        var won:Bool = true;
+        for card in cardsArray {
+            if !card.isMatched {
+                won = false;
+                break;
+            }
+        }
+        if won {
+            showAlert(title:"Congrats.",msg:"You won!");
+        } else {
+            if(milliseconds<=0) {
+                showAlert(title:"Time.",msg:"Ran out of time boi!");
+            }
+        }
+    }
+    
+    func showAlert(title: String, msg: String) {
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: .alert)
+        present(alert, animated: true, completion: nil)
+        
     }
     
     
