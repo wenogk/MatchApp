@@ -14,6 +14,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var collectionView: UICollectionView!
     let model = CardModel()
     var cardsArray = [Card]()
+    var firstFlippedCardIndex: IndexPath?;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         cardsArray = model.getCards();
@@ -40,8 +42,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         let cell = collectionView.cellForItem(at: indexPath) as? CardCollectionViewCell;
         
-        cell?.flipUp();
+        if cell?.card?.isFlipped == false {
+                cell?.flipUp();
+            
+            if(firstFlippedCardIndex == nil) {
+                firstFlippedCardIndex = indexPath;
+            } else {
+                
+            }
+            
+            }
         
+        
+    }
+    // MARK: - Game logic methods
+    func checkForMatch(_ secondFlippedCardIndex: IndexPath) {
+        let cardOne = cardsArray[firstFlippedCardIndex!.row];
+        let cardTwo = cardsArray[secondFlippedCardIndex.row];
+        
+        //compare the cards
+        if cardOne.imageName == cardTwo.imageName {
+            
+        } else {
+            
+        }
+        
+        firstFlippedCardIndex = nil;
     }
 
 }

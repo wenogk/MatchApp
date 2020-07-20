@@ -23,7 +23,7 @@ class CardCollectionViewCell: UICollectionViewCell {
         if card.isFlipped == true {
             flipUp(0)
         } else {
-            
+            flipDown(0)
         }
         
     }
@@ -33,10 +33,17 @@ class CardCollectionViewCell: UICollectionViewCell {
         //flip up animation
         UIView.transition(from: backImageView, to: frontImageView, duration: duration, options: [.showHideTransitionViews,.transitionFlipFromLeft], completion: nil);
         
+        //set the status of the card
+        card?.isFlipped = true;
+        
     }
     
-    func flipDown() {
+    func flipDown(_ duration : TimeInterval = 0.3) {
         
+        
+        UIView.transition(from: frontImageView, to: backImageView, duration: duration, options: [.showHideTransitionViews,.transitionFlipFromLeft], completion: nil);
+        
+        card?.isFlipped = false;
     }
     
  }
