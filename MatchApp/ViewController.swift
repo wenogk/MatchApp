@@ -11,11 +11,13 @@ import UIKit
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     
+    @IBOutlet weak var TimerLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     let model = CardModel()
     var cardsArray = [Card]()
     var firstFlippedCardIndex: IndexPath?;
-    
+    var timer:Timer?;
+    var milliseconds:Int = 10000;
     override func viewDidLoad() {
         super.viewDidLoad()
         cardsArray = model.getCards();
@@ -23,6 +25,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Do any additional setup after loading the view.
         collectionView.dataSource = self;
         collectionView.delegate = self;
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
+    }
+    
+    // MARK: - Timer methods
+    @objc func timerFired() {
+        milliseconds -= 1;
+        
+        let seconds:Double = Double(milliseconds)/1000.0
+        TimerLabel.text = "Remaining time: \(String(format: "%.2f", seconds))";
+        
+        if milliseconds == 0 {
+            timer?.invalidate()
+            milliseconds = 10000
+            TimerLabel.text = "Time up!";
+        }
     }
     // MARK: - Delegate methods for collection view
     
