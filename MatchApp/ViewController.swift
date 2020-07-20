@@ -17,7 +17,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var cardsArray = [Card]()
     var firstFlippedCardIndex: IndexPath?;
     var timer:Timer?;
-    var milliseconds:Int = 10000;
+    var milliseconds:Int = 5000;
     override func viewDidLoad() {
         super.viewDidLoad()
         cardsArray = model.getCards();
@@ -37,7 +37,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         if milliseconds == 0 {
             timer?.invalidate()
-            milliseconds = 10000
+            milliseconds = 5000
+            TimerLabel.textColor = UIColor.red;
             TimerLabel.text = "Time up!";
         }
     }
