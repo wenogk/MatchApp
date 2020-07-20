@@ -17,7 +17,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var cardsArray = [Card]()
     var firstFlippedCardIndex: IndexPath?;
     var timer:Timer?;
-    var milliseconds:Int = 5000;
+    var milliseconds:Int = 20000;
+    var soundPlayer: SoundManager = SoundManager();
     override func viewDidLoad() {
         super.viewDidLoad()
         cardsArray = model.getCards();
@@ -27,6 +28,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.delegate = self;
         timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(timerFired), userInfo: nil, repeats: true)
         RunLoop.main.add(timer!, forMode: .common)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        soundPlayer.playSound(effect: .shuffle)
     }
     
     // MARK: - Timer methods
@@ -65,7 +70,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let cell = collectionView.cellForItem(at: indexPath) as? CardCollectionViewCell;
         
         if cell?.card?.isFlipped == false && cell?.card?.isMatched == false {
-                cell?.flipUp();
+            cell?.flipUp();
+            soundPlayer.playSound(effect: .flip)
             
             if(firstFlippedCardIndex == nil) {
                 firstFlippedCardIndex = indexPath;
@@ -73,7 +79,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 checkForMatch(indexPath)
             }
             
-            }
+        }
         
         
     }
@@ -90,10 +96,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         if cardOne.imageName == cardTwo.imageName {
             cardOne.isMatched = true;
             cardTwo.isMatched = true;
+            soundPlayer.playSound(effect: .match)
             cardOneCell?.remove()
             cardTwoCell?.remove()
             checkForGameEnd()
         } else {
+            soundPlayer.playSound(effect: .nomatch)
             cardOneCell?.flipDown()
             cardTwoCell?.flipDown()
         }
@@ -127,6 +135,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     
-
+    
 }
 
