@@ -48,7 +48,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if(firstFlippedCardIndex == nil) {
                 firstFlippedCardIndex = indexPath;
             } else {
-                
+                checkForMatch(indexPath)
             }
             
             }
@@ -56,19 +56,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
     }
     // MARK: - Game logic methods
+    
     func checkForMatch(_ secondFlippedCardIndex: IndexPath) {
         let cardOne = cardsArray[firstFlippedCardIndex!.row];
         let cardTwo = cardsArray[secondFlippedCardIndex.row];
-        
+        let cardOneCell = collectionView.cellForItem(at: firstFlippedCardIndex!) as? CardCollectionViewCell
+        let cardTwoCell = collectionView.cellForItem(at: secondFlippedCardIndex) as? CardCollectionViewCell
         //compare the cards
         if cardOne.imageName == cardTwo.imageName {
-            
+            cardOne.isMatched = true;
+            cardTwo.isMatched = true;
+            cardOneCell?.remove()
+            cardTwoCell?.remove()
         } else {
-            
+            cardOneCell?.flipDown()
+            cardTwoCell?.flipDown()
         }
         
         firstFlippedCardIndex = nil;
     }
+    
+    
 
 }
 

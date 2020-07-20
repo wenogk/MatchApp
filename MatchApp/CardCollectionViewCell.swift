@@ -40,10 +40,20 @@ class CardCollectionViewCell: UICollectionViewCell {
     
     func flipDown(_ duration : TimeInterval = 0.3) {
         
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+            UIView.transition(from: self.frontImageView, to: self.backImageView, duration: duration, options: [.showHideTransitionViews,.transitionFlipFromLeft], completion: nil);
+        })
         
-        UIView.transition(from: frontImageView, to: backImageView, duration: duration, options: [.showHideTransitionViews,.transitionFlipFromLeft], completion: nil);
         
         card?.isFlipped = false;
+    }
+    
+    func remove() {
+        backImageView.alpha = 0;
+        
+        UIView.animate(withDuration: 0.3, delay: 0.3, options: .curveEaseOut, animations: {
+            self.frontImageView.alpha = 0;
+        }, completion: nil)
     }
     
  }
